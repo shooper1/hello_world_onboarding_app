@@ -114,6 +114,8 @@ sonarRunner {
         property "sonar.jdbc.username", "sonaruser"
         property "sonar.jdbc.password", "sonar"
         property "sonar.java.source", "1.8"
+        property "sonar.java.binaries", "build/classes/main"
+        property "sonar.java.libraries", "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.191.b12-1.el7_6.x86_64/jre/lib/rt.jar"
     }
 }
 
