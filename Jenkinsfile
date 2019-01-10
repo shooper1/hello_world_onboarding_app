@@ -1,12 +1,12 @@
 pipeline {
   agent {
     node {
-      label 'onboard_test_node'
+      label 'any'
     }
 
   }
   stages {
-    stage('verify') {
+    stage('Verify') {
       steps {
         sh 'echo "Hello World"'
       }
