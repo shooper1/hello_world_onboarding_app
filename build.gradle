@@ -68,9 +68,8 @@ task app1Rpm(type: Rpm) {
     version '1.0.2'
     arch NOARCH
     os LINUX
-//    into ('/usr/share/tomcat/webapps/') {
-//      into ('/var/lib/tomcat/webapps') {
 	into ('/opt/tomcat/webapps/') {
+//      into ('/var/lib/tomcat/webapps') {
         addParentDirs = false
     from (war.outputs.files) {
             addParentDirs = false
