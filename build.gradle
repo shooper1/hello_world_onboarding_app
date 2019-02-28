@@ -5,12 +5,21 @@ buildscript {
 
     dependencies {
     	classpath 'org.spockframework:spock-core:1.0-groovy-2.4'
-    	classpath 'com.netflix.nebula:gradle-ospackage-plugin:2.0.2'
+    	classpath 'com.netflix.nebula:gradle-ospackage-plugin:1.12.2'
     	classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
     }
 }
 
+plugins {
+  id "org.sonarqube" version "2.7"
+}
 apply plugin: 'java'
+apply plugin: 'nebula.rpm'
+apply plugin: "jacoco"
+apply plugin: 'war'
+apply plugin: 'pmd'
+apply plugin: "findbugs"
+apply plugin: 'checkstyle'
 
 repositories {
     mavenCentral()
@@ -20,18 +29,9 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
-
-apply plugin: "jacoco"
-apply plugin: 'war'
-apply plugin: 'nebula.rpm'
 jacoco {
     toolVersion = "0.7.4+"
 }
-
-apply plugin: 'pmd'
-apply plugin: "findbugs"
-apply plugin: 'checkstyle'
-apply plugin: "sonar-runner"
 
 jacocoTestReport {
     reports {
@@ -39,6 +39,7 @@ jacocoTestReport {
         csv.enabled false
     }
 }
+
 
 //testing git push hook 2
 
@@ -60,12 +61,14 @@ war.baseName = 'hello-world'
         }
     }*/
 
+
+
 task app1Rpm(type: Rpm) {
     packageName 'hello-world'
     version '1.0.2'
     arch NOARCH
     os LINUX
-    into ('/opt/tomcat/webapps/') {
+    into ('/usr/share/tomcat/webapps/') {
 //      into ('/var/lib/tomcat/webapps') {
         addParentDirs = false
     from (war.outputs.files) {
@@ -88,7 +91,7 @@ uploadArchives {
             }
           
             // change to point to your repo, e.g. http://my.org/repo
-            url "http://172.31.33.234:8081/nexus/content/repositories/snapshots"
+            url "http://172.31.35.227:8081/nexus/content/repositories/snapshots"
       }
     }
 }
@@ -102,20 +105,5 @@ pmd {
     "java-braces",
     "java-comments"
   ]
-}
-
-sonarRunner {
-    sonarProperties {
-        property "sonar.host.url", "http://172.31.33.234:9000"
-        property "sonar.username", "admin"
-        property "sonar.password", "admin"
-        property "sonar.jdbc.url", "jdbc:mysql://172.31.33.234:3306/sonar?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&useConfigs=maxPerformance"
-        property "sonar.jdbc.driverClassName", "com.mysql.jdbc.Driver"
-        property "sonar.jdbc.username", "sonaruser"
-        property "sonar.jdbc.password", "sonar"
-        property "sonar.java.source", "1.8"
-        property "sonar.java.binaries", "build/classes/main"
-        property "sonar.java.libraries", "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.191.b12-1.el7_6.x86_64/jre/lib/rt.jar"
-    }
 }
 
