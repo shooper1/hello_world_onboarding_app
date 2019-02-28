@@ -5,7 +5,7 @@ buildscript {
 
     dependencies {
     	classpath 'org.spockframework:spock-core:1.0-groovy-2.4'
-    	classpath 'com.netflix.nebula:gradle-ospackage-plugin:1.12.8'
+    	classpath 'com.netflix.nebula:gradle-ospackage-plugin:1.12.2'
     	classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
     }
 }
